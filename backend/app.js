@@ -1,7 +1,7 @@
-const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 const postsRoutes = require("./routes/posts");
 const userRoutes = require("./routes/user");
@@ -9,8 +9,14 @@ const userRoutes = require("./routes/user");
 const app = express();
 
 mongoose
+  // .connect(
+  //   "mongodb+srv://" + process.env.DB_USER + ':' + process.env.DB_PASS + 
+  //   "@cluster0-mpd6j.gcp.mongodb.net/test",
+  //   { useNewUrlParser: true }
+  // )
   .connect(
-    "mongodb://localhost:27017/ng_mean&ssl=false"
+    "mongodb+srv://test:qxzzxTubiuBi8YCh@cluster0-mpd6j.gcp.mongodb.net/test",
+    { useNewUrlParser: true }
   )
   .then(() => {
     console.log("Connected to database!");
@@ -21,7 +27,6 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
